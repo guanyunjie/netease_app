@@ -2,16 +2,16 @@
 * Created by Guanyunjie on 2017/6/20.
 */
 <template>
-  	<div class="music-play">
+	<div class="music-play">
 		<div class="white-line"></div>
 		<div class="play-wrap">
 			<div class="btns">
-				<a class="btns-item" href="javascript:;"><i class="iconfont icon-prev"></i></a>
-				<a class="btns-item" href="javascript:;" @click="addTextTrack()"><i :class="paused ? 'icon-pause' : 'icon-play'" class="icon-pp iconfont" ></i></a>
-				<a class="btns-item" href="javascript:;"><i class="iconfont icon-next"></i></a>
+				<a class="btns-item" href="javascript:;" @click="prev()"><i class="iconfont icon-prev"></i></a>
+				<a class="btns-item" href="javascript:;" @click="playOrPause()"><i :class="paused ? 'icon-pause' : 'icon-play'" class="icon-pp iconfont" ></i></a>
+				<a class="btns-item" href="javascript:;" @click="next()"><i class="iconfont icon-next"></i></a>
 			</div>
 			<div class="head">
-				<a class="head-pic" href="javascript:;"></a>
+				<a class="head-pic" href="javascript:;" v-bind:style="{'background-image': 'url('+song.pic+')'}"></a>
 			</div>
 			<div class="play">
 				<div class="words">
@@ -54,18 +54,22 @@
 				<a class="voi" href="javascript:;">
 					<i class="iconfont icon-voice"></i>
 				</a>
-				<a class="cyc" href="javascript:;">
-					<i class="iconfont icon-single-cycle"></i>
+				<a class="cyc" href="javascript:;"
+				   @click="bfModel()"
+				   v-bind="{title: model === 0 ? '列表循环' : model === 1 ? '单曲循环' : '随机播放'}">
+					<i v-if="model === 0" class="iconfont icon-list-cycle"></i>
+					<i v-if="model === 1" class="iconfont icon-single-cycle"></i>
+					<i v-if="model === 2" class="iconfont icon-random"></i>
 				</a>
 				<span class="song-list">
 					<a class="sli" href="javasript:;">
 						<i class="iconfont icon-song-list"></i>
 					</a>
-					<span class="num">12</span>
+					<span class="num" v-text="songs.length"></span>
 				</span>
 			</div>
 		</div>
-		<div class="m-list" style="display: none;">
+		<div class="m-list">
 			<div class="list-hd">
 				<div class="list-hdc">
 					<h4><span>播放列表（<span>30</span>）</span></h4>
@@ -83,98 +87,198 @@
 				</div>
 			</div>
 			<div class="list-bd">
-				<img class="bg-img" src="./pic.jpg" />
+				<img class="bg-img" :src="song.pic" />
 				<div class="m-info">
 					<ul class="m-all">
-						<li class="m-item">
-							<div class="icon"><i class="iconfont icon-play-in"></i></div>
-							<div class="title">Heroe - Album Version (SPANISH)</div>
+						<li class="m-item" v-for="item in songs" @click="sel_music(item.id)">
+							<div :style="{visibility: item.id === song.id ? 'visible' : 'hidden'}" class="icon"><i class="iconfont icon-play-in"></i></div>
+							<div class="title"><span v-text="item.name"></span></div>
 							<div class="opers">
 								<i class="iconfont icon-add-list"></i>
 								<i class="iconfont icon-share"></i>
 								<i class="iconfont icon-load"></i>
 								<i class="iconfont icon-delete"></i>
 							</div>
-							<div class="author">周杰伦</div>
+							<div class="author"><span v-text="item.author"></span></div>
 							<div class="duration">04:12</div>
 						</li>
 					</ul>
 				</div>
 			</div>
 		</div>
-		<audio id="audio" style="display: none;"  controls="controls"
-			@canplay="canplay()"
-			@durationchange="durationchange()"
-			@loadedmetadata="loadedmetadata()"
-			@timeupdate="timeupdate()"
-			@volumechange="volumechange()">
+		<audio id="audio" style="display: none;" controls="controls"
+			   @canplay="canplay()"
+			   @durationchange="durationchange()"
+			   @loadedmetadata="loadedmetadata()"
+			   @timeupdate="timeupdate()"
+			   @volumechange="volumechange()"
+			   @ended="ended()">
 			<source :src="song.src"/>
 		</audio>
-  	</div>
+	</div>
 </template>
 
 <script type="text/ecmascript-6">
-export default {
-	data() {
-		return {
-			paused: true,
-			song: {
-			    id: '123',
-				pic: '',
-				name: 'fesfs',
-				src: '/static/music/deguo.mp3',
-				author: 'zjl'
+	export default {
+		data() {
+			return {
+				paused: true,
+				model: 0,
+				songs: [
+					{
+						id: '123',
+						pic: '',
+						name: 'sad angle',
+						src: '/static/music/11111.mp3',
+						author: 'an de lu'
+					},
+					{
+						id: '222',
+						pic: './11111.png',
+						name: '少年锦时',
+						src: '/static/music/22222.mp3',
+						author: '赵雷'
+					},
+					{
+						id: '333',
+						pic: '',
+						name: '成都',
+						src: '/static/music/33333.mp3',
+						author: '赵雷'
+					},
+					{
+						id: '444',
+						pic: '',
+						name: '无法长大',
+						src: '/static/music/44444.mp3',
+						author: '赵雷'
+					}
+				],
+				song: {
+					id: '123',
+					pic: '/static/img/11111.png',
+					name: 'sad angle',
+					src: '/static/music/11111.mp3',
+					author: 'an de lu'
+				},
+				currentTime: '',
+				duration: '',
+				playWidth: '0%',
+				voice: '0%',
+				voiceDot: '-8%'
+			}
+		},
+		computed: {
+		},
+		filters: {
+
+		},
+		methods: {
+			playOrPause() {
+				let audio = document.getElementById('audio');
+				if (audio.paused) {
+					this.paused = false;
+					audio.play();
+				} else {
+					this.paused = true;
+					audio.pause();
+				}
 			},
-			currentTime: '',
-			duration: '',
-			playWidth: '0%',
-			voice: '0%',
-			voiceDot: '-8%'
-		}
-	},
-	computed: {},
-    methods: {
-        addTextTrack() {
-			let audio = document.getElementById('audio');
-            if (audio.paused) {
-                this.paused = false;
-                audio.play();
-            } else {
-				this.paused = true;
-                audio.pause();
-            }
-        },
-		canplay() {
-            let audio = document.getElementById('audio');
-			this.currentTime = 0;
-			this.duration = Math.round(audio.duration);
-			this.voice = audio.volume * 100 + '%';
-			this.voiceDot = (audio.volume * 100 - 8) + '%';
+			prev() {
+				let _this = this;
+				let audio = document.getElementById('audio');
+				let index = 0;
+				_this.songs.forEach(function (item, i) {
+					if (item.id === _this.song.id) {
+						index = i - 1;
+						return false;
+					}
+				});
+				if (index < 0) {
+					index = _this.songs.length - 1;
+				}
+				_this.song = _this.songs[index];
+				audio.load();
+			},
+			next() {
+				let _this = this;
+				let audio = document.getElementById('audio');
+				if (_this.model === 0) {
+					let index = 0;
+					_this.songs.forEach(function (item, i) {
+						if (item.id === _this.song.id) {
+							index = i + 1;
+							return false;
+						}
+					});
+					if (index >= _this.songs.length) {
+						index = 0;
+					}
+					_this.song = _this.songs[index];
+					audio.load();
+				} else if (_this.model === 2) {
+					let index = Math.floor(Math.random() * _this.songs.length);
+					_this.song = _this.songs[index];
+					audio.load();
+				} else {
+					audio.load();
+				}
+			},
+			bfModel() {
+				this.model = (this.model + 1) % 3;
+			},
+			canplay() {
+				let audio = document.getElementById('audio');
+				this.currentTime = 0;
+				this.duration = Math.round(audio.duration);
+				this.voice = audio.volume * 100 + '%';
+				this.voiceDot = (audio.volume * 100 - 8) + '%';
+
+				this.playOrPause();
+			},
+			durationchange() {
+				let audio = document.getElementById('audio');
+				console.log(audio.duration);
+			},
+			loadedmetadata() {
+				console.log('audio加载完成');
+			},
+			timeupdate() {
+				let audio = document.getElementById('audio');
+				this.currentTime = Math.round(audio.currentTime);
+			},
+			volumechange() {
+				let audio = document.getElementById('audio');
+				this.voice = audio.volume * 100 + '%';
+				this.voiceDot = (audio.volume * 100 - 8) + '%';
+			},
+			ended() {
+				if (this.model === 1) {
+					let audio = document.getElementById('audio');
+					this.song = this.song;
+					audio.load();
+				} else {
+					this.next();
+				}
+			},
+			sel_music(id) {
+				let _this = this;
+				let audio = document.getElementById('audio');
+				_this.songs.forEach(function (item) {
+					if (item.id === id) {
+						_this.song = item;
+						audio.load();
+					}
+				});
+			}
 		},
-		durationchange() {
-			let audio = document.getElementById('audio');
-			console.log(audio.duration);
-		},
-		loadedmetadata() {
-            console.log('audio加载完成');
-		},
-		timeupdate() {
-			let audio = document.getElementById('audio');
-			this.currentTime = Math.round(audio.currentTime);
-		},
-		volumechange() {
-			let audio = document.getElementById('audio');
-			this.voice = audio.volume * 100 + '%';
-			this.voiceDot = (audio.volume * 100 - 8) + '%';
-		}
-    },
-	watch: {
-	    currentTime() {
-			let audio = document.getElementById('audio');
-			this.playWidth = (audio.currentTime / audio.duration) * 100 + '%';
+		watch: {
+			currentTime() {
+				let audio = document.getElementById('audio');
+				this.playWidth = (audio.currentTime / audio.duration) * 100 + '%';
+			}
 		}
 	}
-}
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -325,6 +429,7 @@ export default {
 					border-top-left-radius 3px
 					border-top-right-radius 3px
 					border 1px solid #000
+					z-index 99
 					.bg
 						background #111
 						opacity 0.94
