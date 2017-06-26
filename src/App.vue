@@ -1,23 +1,20 @@
 <template>
-  <div id="app">
-
-
-
-
-
-    <app-play></app-play>
-  </div>
+	<div id="app">
+		<app-head></app-head>
+		<app-play></app-play>
+	</div>
 </template>
 
 <script>
-import Hello from './components/Hello'
-import Play from './components/Play/play.vue'
+import Play from './components/Play/play.vue';
+import Head from './components/Head/head.vue';
+
 export default {
-  name: 'app',
-  components: {
-    Hello,
-    'app-play': Play
-  }
+	name: 'app',
+	components: {
+	  	'app-head': Head,
+		'app-play': Play
+	}
 }
 </script>
 
@@ -27,7 +24,5 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
 }
 </style>

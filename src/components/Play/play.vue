@@ -65,7 +65,7 @@
 				</span>
 			</div>
 		</div>
-		<div class="m-list">
+		<div class="m-list" style="display: none;">
 			<div class="list-hd">
 				<div class="list-hdc">
 					<h4><span>播放列表（<span>30</span>）</span></h4>
@@ -102,7 +102,7 @@
 				</div>
 			</div>
 		</div>
-		<audio id="audio" style="position: fixed;left: 0;top: 0;"  controls="controls"
+		<audio id="audio" style="display: none;"  controls="controls"
 			@canplay="canplay()"
 			@durationchange="durationchange()"
 			@loadedmetadata="loadedmetadata()"
