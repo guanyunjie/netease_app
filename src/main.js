@@ -7,6 +7,7 @@ import App from './App';
 
 import my from './components/my/my.vue';
 import friend from './components/friend/friend.vue';
+import music from './components/music/music.vue';
 
 Vue.config.productionTip = false
 
@@ -15,13 +16,17 @@ Vue.use(VueSource);
 
 const router = new VueRouter({
 	linkActiveClass: 'active',
-	routes: [{
-		path: '/my',
-		component: my
-	}, {
-		path: '/friend',
-		component: friend
-	}
+	routes: [
+		{
+			path: '/my',
+			component: my
+		}, {
+			path: '/friend',
+			component: friend
+		}, {
+			path: '/my/m/music',
+			component: music
+		}
 	]
 });
 
@@ -29,3 +34,4 @@ new Vue({
 	router: router,
 	render: h => h(App)
 }).$mount('#app');
+

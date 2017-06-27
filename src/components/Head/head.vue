@@ -24,7 +24,7 @@
 						</li>
 						<li class="nav-item">
 							<span>
-								<router-link to="/my">
+								<router-link to="/my/m/music">
 									<a href="javascript:;">
 										<em>我的音乐</em>
 										<sub class="cor">&nbsp;</sub>

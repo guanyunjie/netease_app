@@ -23,9 +23,9 @@
 					</a>
 				</div>
 				<div class="play-bar">
-					<div class="bar-bg">
+					<div class="bar-bg" @click="selectTime($event)">
 						<div class="bar-cur" :style="{width: playWidth}">
-							<span class="dot"></span>
+							<span class="dot" @mousedown="isProgressDown = true"></span>
 						</div>
 					</div>
 				</div>
@@ -43,15 +43,17 @@
 				</a>
 			</div>
 			<div class="ctrl">
-				<div class="m-vol">
-					<div class="bg">
-						<div class="vol-bg">
-							<div class="cur-bg" :style="{height: voice}"></div>
-							<span class="dot" :style="{bottom: voiceDot}"></span>
+				<transition name="fade">
+					<div class="m-vol" v-show="isVolShow">
+						<div class="bg">
+							<div class="vol-bg" @click="selectVol($event)">
+								<div class="cur-bg" :style="{height: voice}"></div>
+								<span class="dot" :style="{bottom: voiceDot}" @mousedown.left="isVolDown = true"></span>
+							</div>
 						</div>
 					</div>
-				</div>
-				<a class="voi" href="javascript:;">
+				</transition>
+				<a class="voi" href="javascript:;" @click="isVolShow = !isVolShow">
 					<i class="iconfont icon-voice"></i>
 				</a>
 				<a class="cyc" href="javascript:;"
@@ -61,7 +63,7 @@
 					<i v-if="model === 1" class="iconfont icon-single-cycle"></i>
 					<i v-if="model === 2" class="iconfont icon-random"></i>
 				</a>
-				<span class="song-list">
+				<span class="song-list" @click="isListShow = !isListShow">
 					<a class="sli" href="javasript:;">
 						<i class="iconfont icon-song-list"></i>
 					</a>
@@ -69,86 +71,94 @@
 				</span>
 			</div>
 		</div>
-		<div class="m-list">
-			<div class="list-hd">
-				<div class="list-hdc">
-					<h4><span>播放列表（<span>30</span>）</span></h4>
-					<a href="javascript:;">
-						<i></i>
-						<span>收藏全部</span>
-					</a>
-					<a href="javascript:;">
-						<i></i>
-						<span>清除</span>
-					</a>
-					<div class="line"></div>
-					<p class="lytit">Heroe - Album Version (SPANISH)</p>
-					<span>&times;</span>
+		<transition name="fade">
+			<div class="m-list" v-show="isListShow">
+				<div class="list-hd">
+					<div class="list-hdc">
+						<h4><span>播放列表（<span>30</span>）</span></h4>
+						<a href="javascript:;">
+							<i></i>
+							<span>收藏全部</span>
+						</a>
+						<a href="javascript:;">
+							<i></i>
+							<span>清除</span>
+						</a>
+						<div class="line"></div>
+						<p class="lytit">Heroe - Album Version (SPANISH)</p>
+						<span @click="isListShow = !isListShow">&times;</span>
+					</div>
+				</div>
+				<div class="list-bd">
+					<img class="bg-img" :src="song.pic" />
+					<div class="m-info">
+						<ul class="m-all">
+							<li class="m-item" v-for="item in songs" @click="sel_music(item.id)">
+								<div :style="{visibility: item.id === song.id ? 'visible' : 'hidden'}" class="icon"><i class="iconfont icon-play-in"></i></div>
+								<div class="title"><span v-text="item.name"></span></div>
+								<div class="opers">
+									<i class="iconfont icon-add-list"></i>
+									<i class="iconfont icon-share"></i>
+									<i class="iconfont icon-load"></i>
+									<i class="iconfont icon-delete"></i>
+								</div>
+								<div class="author"><span v-text="item.author"></span></div>
+								<div class="duration">04:12</div>
+							</li>
+						</ul>
+					</div>
 				</div>
 			</div>
-			<div class="list-bd">
-				<img class="bg-img" :src="song.pic" />
-				<div class="m-info">
-					<ul class="m-all">
-						<li class="m-item" v-for="item in songs" @click="sel_music(item.id)">
-							<div :style="{visibility: item.id === song.id ? 'visible' : 'hidden'}" class="icon"><i class="iconfont icon-play-in"></i></div>
-							<div class="title"><span v-text="item.name"></span></div>
-							<div class="opers">
-								<i class="iconfont icon-add-list"></i>
-								<i class="iconfont icon-share"></i>
-								<i class="iconfont icon-load"></i>
-								<i class="iconfont icon-delete"></i>
-							</div>
-							<div class="author"><span v-text="item.author"></span></div>
-							<div class="duration">04:12</div>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</div>
+		</transition>
 		<audio id="audio" style="display: none;" controls="controls"
 			   @canplay="canplay()"
 			   @durationchange="durationchange()"
 			   @loadedmetadata="loadedmetadata()"
 			   @timeupdate="timeupdate()"
 			   @volumechange="volumechange()"
-			   @ended="ended()">
+			   @ended="ended()"
+			   @seeked="seeked()">
 			<source :src="song.src"/>
 		</audio>
 	</div>
 </template>
 
 <script type="text/ecmascript-6">
+
 	export default {
 		data() {
 			return {
 				paused: true,
 				model: 0,
+				isListShow: false,
+				isVolShow: false,
+				isProgressDown: false,
+				isVolDown: false,
 				songs: [
 					{
 						id: '123',
-						pic: '',
+						pic: '/static/img/11111.jpg',
 						name: 'sad angle',
 						src: '/static/music/11111.mp3',
 						author: 'an de lu'
 					},
 					{
 						id: '222',
-						pic: './11111.png',
+						pic: '/static/img/3412884129074161.jpg',
 						name: '少年锦时',
 						src: '/static/music/22222.mp3',
 						author: '赵雷'
 					},
 					{
 						id: '333',
-						pic: '',
+						pic: '/static/img/18957779486268444.jpg',
 						name: '成都',
 						src: '/static/music/33333.mp3',
 						author: '赵雷'
 					},
 					{
 						id: '444',
-						pic: '',
+						pic: '/static/img/2946691234868155.jpg',
 						name: '无法长大',
 						src: '/static/music/44444.mp3',
 						author: '赵雷'
@@ -168,10 +178,16 @@
 				voiceDot: '-8%'
 			}
 		},
-		computed: {
-		},
-		filters: {
-
+		mounted() {
+		    let _this = this;
+		 	document.addEventListener('mousemove', function (e) {
+				if (_this.isVolDown && e.which === 1) {
+					console.log(e.which);
+				}
+			});
+			document.addEventListener('mouseup', function(e) {
+				_this.isVolDown = false;
+			});
 		},
 		methods: {
 			playOrPause() {
@@ -227,14 +243,28 @@
 			bfModel() {
 				this.model = (this.model + 1) % 3;
 			},
+			selectVol(e) {
+			    let h = e.target.offsetHeight;
+			   	let ch = h - e.offsetY;
+				let audio = document.getElementById('audio');
+				audio.volume = ch / h;
+			},
+			selectTime(e) {
+			    let w = document.getElementsByClassName('bar-bg')[0].offsetWidth;
+			    let cw = e.offsetX;
+				let audio = document.getElementById('audio');
+				let duration = audio.duration;
+
+				audio.currentTime = duration * (cw / w);
+			},
 			canplay() {
 				let audio = document.getElementById('audio');
 				this.currentTime = 0;
 				this.duration = Math.round(audio.duration);
 				this.voice = audio.volume * 100 + '%';
 				this.voiceDot = (audio.volume * 100 - 8) + '%';
-
-				this.playOrPause();
+				this.paused = false;
+				audio.play();
 			},
 			durationchange() {
 				let audio = document.getElementById('audio');
@@ -246,6 +276,8 @@
 			timeupdate() {
 				let audio = document.getElementById('audio');
 				this.currentTime = Math.round(audio.currentTime);
+			},
+			seeked() {
 			},
 			volumechange() {
 				let audio = document.getElementById('audio');
@@ -283,6 +315,13 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="stylus" rel="stylesheet/stylus" scoped>
+
+	.fade-enter-active, .fade-leave-active {
+		transition: opacity .5s
+	}
+	.fade-enter, .fade-leave-to /* .fade-leave-active in <2.1.8 */ {
+		opacity: 0
+	}
 
 	.music-play
 		display block
@@ -422,7 +461,7 @@
 				position relative
 				.m-vol
 					position absolute
-					left 0
+					left -8px
 					top -116px
 					height 103px
 					width 30px
@@ -440,8 +479,8 @@
 						border-top-right-radius 3px
 						.vol-bg
 							width 4px
-							height 80px
-							margin 10px auto
+							height 70px
+							margin 20px auto
 							background #000
 							position relative
 							border-radius 99px
@@ -475,6 +514,7 @@
 					width 40px
 					display inline-block
 					position relative
+					cursor pointer
 					.sli
 						position absolute
 						left 0px
