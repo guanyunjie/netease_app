@@ -2,7 +2,10 @@
 * Created by Guanyunjie on 2017/6/28.
 */
 <template>
-	<div>sefsefs</div>
+	<div>
+		this is playlist html.
+		id:{{$route.params.id}}
+	</div>
 </template>
 
 <script type="text/ecmascript-6">

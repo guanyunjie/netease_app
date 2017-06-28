@@ -16,10 +16,25 @@
 					<button class="new" type="button"><i class="iconfont icon-plus"></i>新建</button>
 					<ul class="f-cb" v-show="isCreatedOpen">
 						<li class="pl-item">
-							<router-link style="display: inline" to="/my/m/music/playlist?id=12345">
+							<router-link style="display: inline" to="/my/m/music/playlist/767475042">
 								<div class="pl-wrap">
 									<div class="pic">
 										<img src="/static/img/18957779486268444.jpg" width="40" height="40" alt="">
+									</div>
+									<p class="title">我喜欢的音乐</p>
+									<p class="num">56首</p>
+									<span class="oper">
+										<a class="edi" href="javascript:;"><i class="iconfont icon-edit"></i></a>
+										<a class="del" href="javascript:;"><i class="iconfont icon-delete"></i></a>
+									</span>
+								</div>
+							</router-link>
+						</li>
+						<li class="pl-item">
+							<router-link style="display: inline" to="/my/m/music/playlist/468523178">
+								<div class="pl-wrap">
+									<div class="pic">
+										<img src="/static/img/2946691234868155.jpg" width="40" height="40" alt="">
 									</div>
 									<p class="title">无法长大</p>
 									<p class="num">26首</p>
@@ -38,13 +53,43 @@
 						收藏的歌单（2）
 					</a>
 					<ul class="f-cb" v-show="isColOpen">
-						<li>fff</li>
+						<li class="pl-item">
+							<router-link style="display: inline" to="/my/m/music/playlist/902367246">
+								<div class="pl-wrap">
+									<div class="pic">
+										<img src="/static/img/11111.png" width="40" height="40" alt="">
+									</div>
+									<p class="title">设计师没有灵感了听这个</p>
+									<p class="num">12首</p>
+									<span class="oper">
+										<a class="edi" href="javascript:;"><i class="iconfont icon-edit"></i></a>
+										<a class="del" href="javascript:;"><i class="iconfont icon-delete"></i></a>
+									</span>
+								</div>
+							</router-link>
+						</li>
+						<li class="pl-item">
+							<router-link style="display: inline" to="/my/m/music/playlist/653478346">
+								<div class="pl-wrap">
+									<div class="pic">
+										<img src="/static/img/3412884129074161.jpg" width="40" height="40" alt="">
+									</div>
+									<p class="title">学霸进行曲</p>
+									<p class="num">31首</p>
+									<span class="oper">
+										<a class="edi" href="javascript:;"><i class="iconfont icon-edit"></i></a>
+										<a class="del" href="javascript:;"><i class="iconfont icon-delete"></i></a>
+									</span>
+								</div>
+							</router-link>
+						</li>
 					</ul>
 				</div>
 			</div>
 			<div class="detail">
-				<router-view name="music"></router-view>
+
 			</div>
+			<router-view></router-view>
 		</div>
 	</div>
 </template>

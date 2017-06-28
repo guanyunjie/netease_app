@@ -5,13 +5,19 @@
 	<div class="friend">
 		<div class="f-wrap">
 			<div class="bg"></div>
-			<button class="btn">立即登录</button>
+			<button class="btn" @click="getParam()">立即登录</button>
 		</div>
 	</div>
 </template>
 
 <script type="text/ecmascript-6">
-export default {};
+export default {
+    methods: {
+        getParam() {
+            console.log(this.$route.params);
+		}
+	}
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->

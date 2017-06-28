@@ -22,15 +22,17 @@ const router = new VueRouter({
 			path: '/my',
 			component: my
 		}, {
-			path: '/friend',
+			path: '/friend/:id',
 			component: friend
 		}, {
-			path: '/my/m/music',
-			component: music
-		}, {
-			path: 'my/m/music/playlist',
-			component: playlist,
-			name: 'music'
+			path: '/my/m/music/',
+			component: music,
+			children: [
+				{
+					path: 'playlist/:id',
+					component: playlist
+				}
+			]
 		}
 	]
 });
