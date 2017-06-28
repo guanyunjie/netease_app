@@ -3,16 +3,165 @@
 */
 <template>
 	<div class="music-l">
-		heiheisefsefsfefs
+		<div class="music-wrap">
+			<div class="nav">
+				<h2 class="tit"><a href="javascript:;">我的歌手（6）</a></h2>
+				<h2 class="tit"><a href="javascript:;">我的MV（4）</a></h2>
+				<h2 class="tit"><a href="javascript:;">我的电台（3）</a></h2>
+				<div class="create-gd">
+					<a href="javascript:;" @click="isCreatedOpen = !isCreatedOpen">
+						<i class="iconfont" :class="isCreatedOpen ? 'icon-s-open' : 'icon-s-close'"></i>
+						创建的歌单（9）
+					</a>
+					<button class="new" type="button"><i class="iconfont icon-plus"></i>新建</button>
+					<ul class="f-cb" v-show="isCreatedOpen">
+						<li class="pl-item">
+							<router-link style="display: inline" to="/my/m/music/playlist?id=12345">
+								<div class="pl-wrap">
+									<div class="pic">
+										<img src="/static/img/18957779486268444.jpg" width="40" height="40" alt="">
+									</div>
+									<p class="title">无法长大</p>
+									<p class="num">26首</p>
+									<span class="oper">
+										<a class="edi" href="javascript:;"><i class="iconfont icon-edit"></i></a>
+										<a class="del" href="javascript:;"><i class="iconfont icon-delete"></i></a>
+									</span>
+								</div>
+							</router-link>
+						</li>
+					</ul>
+				</div>
+				<div class="collect-gd">
+					<a href="javascript:;" @click="isColOpen = !isColOpen">
+						<i class="iconfont" :class="isColOpen ? 'icon-s-open' :  'icon-s-close'"></i>
+						收藏的歌单（2）
+					</a>
+					<ul class="f-cb" v-show="isColOpen">
+						<li>fff</li>
+					</ul>
+				</div>
+			</div>
+			<div class="detail">
+				<router-view name="music"></router-view>
+			</div>
+		</div>
 	</div>
 </template>
 
 <script type="text/ecmascript-6">
 
-	export default {};
+	export default {
+	    data() {
+	      	return {
+				isCreatedOpen: false,
+				isColOpen: false
+			}
+		},
+		methods() {
+
+		}
+	};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="stylus" rel="stylesheet/stylus" scoped>
-
+	.music-l
+		background #f5f5f5
+		.music-wrap
+			width 982px
+			margin 0 auto
+			background #fff
+			min-height 600px
+			overflow hidden
+			border 1px solid #ccc
+			.nav
+				width 240px
+				height 600px
+				float left
+				background #f9f9f9
+				padding-top 50px
+				border-right 1px solid #ccc
+				.tit
+					line-height 35px
+					text-align left
+					padding-left 30px
+					&:hover
+						background #eee
+					a
+						color #000
+						font-size 14px
+						font-weight bold
+						display block
+				.create-gd,.collect-gd
+					position relative
+					text-align left
+					padding-left 11px
+					a
+						font-size 14px
+						font-weight bold
+						line-height 35px
+						cursor pointer
+						display inline-block
+						color #333
+						.iconfont
+							color #333
+					.new
+						border-radius 3px
+						border 1px solid #aaa
+						background #f9f9f9
+						height 22px
+						outline none
+						cursor pointer
+						padding 0 10px
+						margin-left 20px
+						font-size 12px
+						color #333
+						.iconfont
+							font-size 12px
+							font-weight bold
+							color #b71616
+							margin-right 3px
+					.f-cb
+						.pl-item
+							line-height 54px
+							padding 6px 0 6px 20px
+							overflow hidden
+							position relative
+							cursor pointer
+							&:hover
+								background #ccc
+							.pl-wrap
+								height 40px
+								overflow hidden
+								.pic
+									width 42px
+									display inline-block
+									float left
+								.title
+									position absolute
+									top -4px
+									left 70px
+									font-size 12px
+								.num
+									font-size 10px
+									position absolute
+									top 22px
+									left 70px
+								.oper
+									position absolute
+									right 18px
+									bottom -2px
+									.edi
+										.iconfont
+											font-size 11px
+											color #999
+									.del
+										.iconfont
+											font-size 16px
+											color #999
+			.detail
+				width 740px
+				height 100%
+				float right
 </style>

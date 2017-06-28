@@ -8,6 +8,7 @@ import App from './App';
 import my from './components/my/my.vue';
 import friend from './components/friend/friend.vue';
 import music from './components/music/music.vue';
+import playlist from './components/playlist/playlist.vue';
 
 Vue.config.productionTip = false
 
@@ -26,6 +27,10 @@ const router = new VueRouter({
 		}, {
 			path: '/my/m/music',
 			component: music
+		}, {
+			path: 'my/m/music/playlist',
+			component: playlist,
+			name: 'music'
 		}
 	]
 });

@@ -47,8 +47,8 @@
 					<div class="m-vol" v-show="isVolShow">
 						<div class="bg">
 							<div class="vol-bg" @click="selectVol($event)">
-								<div class="cur-bg" :style="{height: voice}"></div>
-								<span class="dot" :style="{bottom: voiceDot}" @mousedown.left="isVolDown = true"></span>
+								<div class="cur-bg"></div>
+								<span class="dot" @mousedown.left="isVolDown = true"></span>
 							</div>
 						</div>
 					</div>
@@ -124,7 +124,8 @@
 </template>
 
 <script type="text/ecmascript-6">
-
+	import $ from 'jquery';
+	let curvol = localStorage.getItem('curvol') || 0.8;
 	export default {
 		data() {
 			return {
@@ -134,6 +135,7 @@
 				isVolShow: false,
 				isProgressDown: false,
 				isVolDown: false,
+				curvol: curvol,
 				songs: [
 					{
 						id: '123',
@@ -173,20 +175,47 @@
 				},
 				currentTime: '',
 				duration: '',
-				playWidth: '0%',
-				voice: '0%',
-				voiceDot: '-8%'
+				playWidth: '0%'
 			}
 		},
 		mounted() {
 		    let _this = this;
+			let vh = $('.vol-bg')[0].scrollHeight;
+			let vtop = $('.vol-bg').offset().top;
+
+			let pw = $('.bar-bg')[0].scrollWidth;
+			let pleft = $('.bar-bg').offset().left;
+
 		 	document.addEventListener('mousemove', function (e) {
+		 	    let mouseX = e.pageX;
+		 	    let mouseY = e.pageY;
 				if (_this.isVolDown && e.which === 1) {
-					console.log(e.which);
-				}
+					let h = vh + vtop - mouseY;
+					if (vh + vtop - mouseY >= vh) {
+						h = vh;
+					} else if (vh + vtop - mouseY <= 0) {
+					    h = 0;
+					}
+					$('.cur-bg').css('height', h + 'px');
+					$('.vol-bg .dot').css('bottom', h - 4 + 'px');
+					_this.curvol = h / vh;
+				} else if (_this.isProgressDown && e.which === 1) {
+					let w = mouseX - pleft;
+					if (w > pw) {
+					    w = pw;
+					} else if (w < 0) {
+					    w = 0;
+					}
+					$('.bar-cur').css('width', w + 'px');
+				} else {}
 			});
 			document.addEventListener('mouseup', function(e) {
 				_this.isVolDown = false;
+				if (_this.isProgressDown) {
+				    let audio = document.getElementById('audio');
+					audio.currentTime = audio.duration * $('.bar-cur').width() / pw;
+					_this.isProgressDown = false;
+				}
 			});
 		},
 		methods: {
@@ -244,10 +273,18 @@
 				this.model = (this.model + 1) % 3;
 			},
 			selectVol(e) {
-			    let h = e.target.offsetHeight;
-			   	let ch = h - e.offsetY;
-				let audio = document.getElementById('audio');
-				audio.volume = ch / h;
+				let mouseY = e.pageY;
+				let vh = $('.vol-bg')[0].scrollHeight;
+				let vtop = $('.vol-bg').offset().top;
+				let h = vh + vtop - mouseY;
+				if (vh + vtop - mouseY >= vh) {
+					h = vh;
+				} else if (vh + vtop - mouseY <= 0) {
+					h = 0;
+				}
+				$('.cur-bg').css('height', h + 'px');
+				$('.vol-bg .dot').css('bottom', h - 4 + 'px');
+				this.curvol = h / vh;
 			},
 			selectTime(e) {
 			    let w = document.getElementsByClassName('bar-bg')[0].offsetWidth;
@@ -261,8 +298,8 @@
 				let audio = document.getElementById('audio');
 				this.currentTime = 0;
 				this.duration = Math.round(audio.duration);
-				this.voice = audio.volume * 100 + '%';
-				this.voiceDot = (audio.volume * 100 - 8) + '%';
+				$('.cur-bg').css('height', audio.volume * 100 + '%');
+				$('.vol-bg .dot').css('bottom', audio.volume * 100 - 8 + '%')
 				this.paused = false;
 				audio.play();
 			},
@@ -306,8 +343,14 @@
 		},
 		watch: {
 			currentTime() {
+			    if (!this.isProgressDown) {
+					let audio = document.getElementById('audio');
+					this.playWidth = (audio.currentTime / audio.duration) * 100 + '%';
+				}
+			},
+			curvol(n) {
 				let audio = document.getElementById('audio');
-				this.playWidth = (audio.currentTime / audio.duration) * 100 + '%';
+				audio.volume = n;
 			}
 		}
 	}
