@@ -139,38 +139,38 @@
 				songs: [
 					{
 						id: '123',
-						pic: '/static/img/11111.jpg',
+						pic: './static/img/11111.png',
 						name: 'sad angle',
-						src: '/static/music/11111.mp3',
+						src: './static/music/11111.mp3',
 						author: 'an de lu'
 					},
 					{
 						id: '222',
-						pic: '/static/img/3412884129074161.jpg',
+						pic: './static/img/3412884129074161.jpg',
 						name: '少年锦时',
-						src: '/static/music/22222.mp3',
+						src: './static/music/22222.mp3',
 						author: '赵雷'
 					},
 					{
 						id: '333',
-						pic: '/static/img/18957779486268444.jpg',
+						pic: './static/img/18957779486268444.jpg',
 						name: '成都',
-						src: '/static/music/33333.mp3',
+						src: './static/music/33333.mp3',
 						author: '赵雷'
 					},
 					{
 						id: '444',
-						pic: '/static/img/2946691234868155.jpg',
+						pic: './static/img/2946691234868155.jpg',
 						name: '无法长大',
-						src: '/static/music/44444.mp3',
+						src: './static/music/44444.mp3',
 						author: '赵雷'
 					}
 				],
 				song: {
 					id: '123',
-					pic: '/static/img/11111.png',
+					pic: './static/img/11111.png',
 					name: 'sad angle',
-					src: '/static/music/11111.mp3',
+					src: './static/music/11111.mp3',
 					author: 'an de lu'
 				},
 				currentTime: '',

@@ -11,39 +11,27 @@
 						网易云音乐
 					</h1>
 					<ul class="nav">
-						<li class="nav-item">
-							<span class="on">
-								<router-link to="/">
-									<a href="javascript:;">
-										<em>发现音乐</em>
-										<sub class="cor">&nbsp;</sub>
-									</a>
-								</router-link>
-								<div class="line"></div>
-							</span>
-						</li>
-						<li class="nav-item">
-							<span>
-								<router-link to="/my/m/music">
-									<a href="javascript:;">
-										<em>我的音乐</em>
-										<sub class="cor">&nbsp;</sub>
-									</a>
-								</router-link>
-								<div class="line"></div>
-							</span>
-						</li>
-						<li class="nav-item">
-							<span>
-								<router-link to="/friend">
-									<a href="javascript:;">
-										<em>朋友</em>
-										<sub class="cor">&nbsp;</sub>
-									</a>
-								</router-link>
-								<div class="line"></div>
-							</span>
-						</li>
+						<router-link activeClass="nav-active" tag="li" to="/find">
+							<a style="display: block;">
+								<em>发现音乐</em>
+								<sub class="cor">&nbsp;</sub>
+							</a>
+							<div class="line"></div>
+						</router-link>
+						<router-link tag="li" activeClass="nav-active" to="/my/m/music">
+							<a style="display: block;">
+								<em>我的音乐</em>
+								<sub class="cor">&nbsp;</sub>
+							</a>
+							<div class="line"></div>
+						</router-link>
+						<router-link tag="li" activeClass="nav-active" to="/friend">
+							<a style="display: block">
+								<em>朋友</em>
+								<sub class="cor">&nbsp;</sub>
+							</a>
+							<div class="line"></div>
+						</router-link>
 					</ul>
 					<div class="login">
 						<a class="btn-log" href="javascript:;">登录</a>
@@ -201,6 +189,21 @@
 <style lang="stylus" rel="stylesheet/stylus" scoped>
 em
 	font-style normal
+.nav-active
+	background linear-gradient(#292929, #353535)
+	box-shadow inset 0 0 20px 0px #000
+	.cor
+		position absolute
+		opacity 1 !important
+		left 48%
+		bottom 0px
+		z-index 101
+		width: 0;
+		height: 0;
+		border-left: 7px solid transparent;
+		border-right: 7px solid transparent;
+		border-bottom: 6px solid #c7250c;
+
 .head
 	.m-top
 		position relative
@@ -229,53 +232,31 @@ em
 				overflow hidden
 				float left
 				display inline-block
-				.nav-item
+				li
 					position relative
 					float left
 					cursor pointer
-					span
-						display inline-block
-						height 100%
-						line-height 62px
-						&.on
-							background linear-gradient(#222121, #333);
-							box-shadow inset 0 -5px 14px 0 #211f1f
-							border-left 1px solid #333
-							border-right 1px solid #444
-							a
-								display inline-block
-								border-left 1px solid #000
-								border-right 1px solid #000
-							em
-								display inline-block
-							.line
-								display none
-						a
-							width 100%
-							border-bottom none
-							em
-								color #ccc
-								font-size 13px
-								margin 0 21px 0 19px
-							.cor
-								position absolute
-								left 48%
-								bottom 0px
-								z-index 101
-								width: 0;
-								height: 0;
-								border-left: 7px solid transparent;
-								border-right: 7px solid transparent;
-								border-bottom: 6px solid #c7250c;
-						.line
-							position absolute
-							right 0px
-							top 50%
-							margin-top -6px
-							z-index 100
-							height 12px
-							border-right 1px solid #000
-							box-shadow 1px 0 0 0 #585656
+					line-height 62px
+					height 100%
+					padding 0px 20px
+					a
+						width 100%
+						border-bottom none
+						em
+							color #ccc
+							font-size 13px
+							margin 0 21px 0 19px
+						.cor
+							opacity 0
+					.line
+						position absolute
+						right 0px
+						top 50%
+						margin-top -6px
+						z-index 100
+						height 12px
+						border-right 1px solid #000
+						box-shadow 1px 0 0 0 #585656
 
 
 

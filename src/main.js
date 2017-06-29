@@ -9,8 +9,11 @@ import my from './components/my/my.vue';
 import friend from './components/friend/friend.vue';
 import music from './components/music/music.vue';
 import playlist from './components/playlist/playlist.vue';
+import artist from './components/artist/artist.vue';
+import mv from './components/mv/mv.vue';
+import radio from './components/radio/radio.vue';
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
 Vue.use(VueRouter);
 Vue.use(VueSource);
@@ -31,6 +34,18 @@ const router = new VueRouter({
 				{
 					path: 'playlist/:id',
 					component: playlist
+				},
+				{
+					path: 'artist',
+					component: artist
+				},
+				{
+					path: 'mv',
+					component: mv
+				},
+				{
+					path: 'radio',
+					component: radio
 				}
 			]
 		}

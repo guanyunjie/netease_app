@@ -5,9 +5,15 @@
 	<div class="music-l">
 		<div class="music-wrap">
 			<div class="nav">
-				<h2 class="tit"><a href="javascript:;">我的歌手（6）</a></h2>
-				<h2 class="tit"><a href="javascript:;">我的MV（4）</a></h2>
-				<h2 class="tit"><a href="javascript:;">我的电台（3）</a></h2>
+				<h2 class="tit">
+					<router-link to="/my/m/music/artist">我的歌手（6）</router-link>
+				</h2>
+				<h2 class="tit">
+					<router-link to="/my/m/music/mv">我的MV（4）</router-link>
+				</h2>
+				<h2 class="tit">
+					<router-link to="/my/m/music/radio">我的电台（3）</router-link>
+				</h2>
 				<div class="create-gd">
 					<a href="javascript:;" @click="isCreatedOpen = !isCreatedOpen">
 						<i class="iconfont" :class="isCreatedOpen ? 'icon-s-open' : 'icon-s-close'"></i>
@@ -15,8 +21,8 @@
 					</a>
 					<button class="new" type="button"><i class="iconfont icon-plus"></i>新建</button>
 					<ul class="f-cb" v-show="isCreatedOpen">
-						<li class="pl-item">
-							<router-link style="display: inline" to="/my/m/music/playlist/767475042">
+						<router-link tag="li" activeClass="active" to="/my/m/music/playlist/767475042">
+							<a style="display: inline;">
 								<div class="pl-wrap">
 									<div class="pic">
 										<img src="/static/img/18957779486268444.jpg" width="40" height="40" alt="">
@@ -28,10 +34,10 @@
 										<a class="del" href="javascript:;"><i class="iconfont icon-delete"></i></a>
 									</span>
 								</div>
-							</router-link>
-						</li>
-						<li class="pl-item">
-							<router-link style="display: inline" to="/my/m/music/playlist/468523178">
+							</a>
+						</router-link>
+						<router-link tag="li" activeClass="active" to="/my/m/music/playlist/468523178">
+							<a style="display: inline;">
 								<div class="pl-wrap">
 									<div class="pic">
 										<img src="/static/img/2946691234868155.jpg" width="40" height="40" alt="">
@@ -43,8 +49,8 @@
 										<a class="del" href="javascript:;"><i class="iconfont icon-delete"></i></a>
 									</span>
 								</div>
-							</router-link>
-						</li>
+							</a>
+						</router-link>
 					</ul>
 				</div>
 				<div class="collect-gd">
@@ -53,8 +59,8 @@
 						收藏的歌单（2）
 					</a>
 					<ul class="f-cb" v-show="isColOpen">
-						<li class="pl-item">
-							<router-link style="display: inline" to="/my/m/music/playlist/902367246">
+						<router-link tag="li" activeClass="active" to="/my/m/music/playlist/902367246">
+							<a style="display: inline;">
 								<div class="pl-wrap">
 									<div class="pic">
 										<img src="/static/img/11111.png" width="40" height="40" alt="">
@@ -66,10 +72,10 @@
 										<a class="del" href="javascript:;"><i class="iconfont icon-delete"></i></a>
 									</span>
 								</div>
-							</router-link>
-						</li>
-						<li class="pl-item">
-							<router-link style="display: inline" to="/my/m/music/playlist/653478346">
+							</a>
+						</router-link>
+						<router-link tag="li" activeClass="active" to="/my/m/music/playlist/653478346">
+							<a style="display: inline;">
 								<div class="pl-wrap">
 									<div class="pic">
 										<img src="/static/img/3412884129074161.jpg" width="40" height="40" alt="">
@@ -81,15 +87,14 @@
 										<a class="del" href="javascript:;"><i class="iconfont icon-delete"></i></a>
 									</span>
 								</div>
-							</router-link>
-						</li>
+							</a>
+						</router-link>
 					</ul>
 				</div>
 			</div>
 			<div class="detail">
-
+				<router-view></router-view>
 			</div>
-			<router-view></router-view>
 		</div>
 	</div>
 </template>
@@ -111,6 +116,10 @@
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="stylus" rel="stylesheet/stylus" scoped>
+	.active
+		background #ccc
+		&:hover
+			background #ccc !important
 	.music-l
 		background #f5f5f5
 		.music-wrap
@@ -130,7 +139,6 @@
 				.tit
 					line-height 35px
 					text-align left
-					padding-left 30px
 					&:hover
 						background #eee
 					a
@@ -138,6 +146,7 @@
 						font-size 14px
 						font-weight bold
 						display block
+						padding-left 30px
 				.create-gd,.collect-gd
 					position relative
 					text-align left
@@ -168,14 +177,14 @@
 							color #b71616
 							margin-right 3px
 					.f-cb
-						.pl-item
+						li,.pl-item
 							line-height 54px
 							padding 6px 0 6px 20px
 							overflow hidden
 							position relative
 							cursor pointer
 							&:hover
-								background #ccc
+								background #eee
 							.pl-wrap
 								height 40px
 								overflow hidden
