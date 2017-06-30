@@ -2,21 +2,26 @@
 * Created by Guanyunjie on 2017/6/29.
 */
 <template>
-	<div>{{result}}</div>
+	<div>post：{{result}}<br /> get：{{result2}}</div>
 </template>
 
 <script type="text/ecmascript-6">
 	export default {
 	    data() {
 	        return {
-				result: ''
+				result: {},
+				result2: {}
 			}
 		},
 	    created() {
-	        this.$http.get('http://10.32.151.31:3000/query/seller').then((res) => {
-	           console.log(res);
-	           this.result = res;
+			this.$http.post('/api', {id: '222'}).then((res) => {
+			    this.result = res.data;
 			});
+			this.$http.get('/api/tom').then((res) => {
+				this.result2 = res.data;
+			});
+		},
+		methods: {
 		}
 	};
 </script>

@@ -6,8 +6,9 @@
 		<div class="info">
 			<div class="wrap">
 				<div class="m-info">
+
 					<div class="cover">
-						<img src="/static/img/18957779486268444.jpg" width="200" height="200" alt="">
+						<img src="static/img/18957779486268444.jpg" width="200" height="200" alt="">
 						<div class="bor"></div>
 					</div>
 					<div class="cnt">
@@ -18,7 +19,7 @@
 						</div>
 						<div class="user">
 							<router-link to="/user">
-								<img src="/static/img/3265549600663283.jpg" width="35" height="35">
+								<img src="static/img/3265549600663283.jpg" width="35" height="35">
 							</router-link>
 							<router-link to="/user">官云杰</router-link>
 							<span class="created">2017-03-05 创建</span>
@@ -94,7 +95,7 @@
 			</div>
 			<div class="area">
 				<div class="pic">
-					<img src="/static/img/3265549600663283.jpg" width="50" height="50" alt="">
+					<img src="static/img/3265549600663283.jpg" width="50" height="50" alt="">
 				</div>
 				<div class="content">
 					<textarea placeholder="评论" rows="4"></textarea>
